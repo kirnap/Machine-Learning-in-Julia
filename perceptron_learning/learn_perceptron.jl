@@ -16,7 +16,7 @@ function learn_perceptron(train_data_biased, target, weights)
   for i in range(1, size(train_data_biased)[1])
     activation = train_data_biased[i,:] * weights
     if !check_output(activation, target[i])
-      weights = weights + target[i] *t rain_data_biased[i,:]'  # Update the weight vector
+      weights = weights + target[i] * train_data_biased[i,:]'  # Update the weight vector
     end
   end
   return weights
