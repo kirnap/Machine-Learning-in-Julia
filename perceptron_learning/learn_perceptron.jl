@@ -1,17 +1,25 @@
+#=
+Please read and understand the basics of perceptron learning procedure before
+further looking the code here are a couple of good ways to look through resources
+https://class.coursera.org/neuralnets-2012-001/lecture/10
+
+=#
 using DataArrays
 
 
-function learn_perceptron(train_data, target, weights)
+function learn_perceptron(train_data_biased, target, weights)
   #=
   To evaluate the perceptron based on a calculation of x' * w (dot product)
   target is a vector containing -1 for negative examples and 1 for positive
   examples
   =#
-  train_data = add_bias(train_data)
-  for i in range(1, size(train_data)[1])
-    activation = train_data[i,:] * weights
+  for i in range(1, size(train_data_biased)[1])
+    activation = train_data_biased[i,:] * weights
     if !check_output(activation, target[i])
-      weights = weights + train_data[i,:]'  # Update the weight vector
+      weights = weights + target[i] *t rain_data_biased[i,:]'  # Update the weight vector
+    end
+  end
+  return weights
 end
 
 
@@ -24,10 +32,10 @@ function check_output(activation, real_value)
   is positive number
   Otherwise negative number
   =#
-  if activation * real_value > 0
+  if activation[1] * real_value > 0
     return true
   end
-  return false
+    return false
 end
 
 
@@ -38,6 +46,7 @@ function add_bias(train_data)
   number_of_columns = size(train_data)[1]
   return [@data(ones(number_of_columns)) train_data]
 end
+
 
 function eval_perceptron(train_data_biased, weights, target)
   #=
@@ -52,3 +61,4 @@ function eval_perceptron(train_data_biased, weights, target)
     end
   end
   return number_of_errors
+end
