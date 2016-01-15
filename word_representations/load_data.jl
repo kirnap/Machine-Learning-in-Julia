@@ -33,7 +33,7 @@ function load_data(N::Int64)
   test_input = data["testData"][1:D, :]
   test_target = data["testData"][D + 1, :]
   vocab = data["vocab"]
-  
+
   return (train_input,
           train_target,
           valid_input,
@@ -41,5 +41,3 @@ function load_data(N::Int64)
           test_input,
           test_target)
 end
-
-load_data(3)
