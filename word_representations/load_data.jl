@@ -39,5 +39,6 @@ function load_data(N::Int64)
           valid_input,
           valid_target,
           test_input,
-          test_target)
+          test_target,
+          vocab)
 end
