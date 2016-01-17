@@ -40,6 +40,7 @@ function network_initializer(init_wt, numhid1, numhid2, numwords, vocab_size)
   #=
   This function is designed to create initial weights and delta matrices
   for backpropagation algorithm
+
   =#
   word_embedding_weights = init_wt * randn(vocab_size, numhid1)
   embed_to_hid_weights = init_wt * randn(numwords * numhid1, numhid2)
@@ -69,5 +70,19 @@ return (word_embedding_weights,
         hid_to_output_weights_delta,
         hid_bias_delta,
         output_bias_delta)
+
+end
+
+function findmaxcols(matrix)
+  #=
+  Input: matrix by size of M X N
+  returns : a row vector containing maximum of each column in rows.
+
+  =#
+  result = zeros(1, size(matrix,2))
+  for i=1:size(matrix, 2)
+    result[1,i] = maximum(matrix[:,i])
+  end
+  return result
 
 end
