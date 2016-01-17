@@ -84,5 +84,17 @@ function findmaxcols(matrix)
     result[1,i] = maximum(matrix[:,i])
   end
   return result
+end
 
+
+function sum_columns(matrix)
+  #=
+  MATLAB like summer to sum up the columns of a matrix
+
+  =#
+  result = zeros(1, size(matrix,2))
+  for i=1:size(matrix, 2)
+    result[1, i] = sum(matrix[:, i])
+  end
+  return result
 end
