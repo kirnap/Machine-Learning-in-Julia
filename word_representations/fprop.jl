@@ -1,3 +1,4 @@
+using Devectorize
 include("helper_functions.jl")
 
 
@@ -42,16 +43,16 @@ hidden_layer_state = 1./ (1 + exp(-inputs_to_hidden_units))
 # Compute the state of the OUTPUT LAYER
 
 # First we need to compute the inputs for softmax units
-inputs_to_softmax = hid_to_output_weigths' * hidden_layer_state + repmat(output_bias, 1, batchsize)
+@devec inputs_to_softmax = hid_to_output_weigths' * hidden_layer_state + repmat(output_bias, 1, batchsize)
 
 # This trick is taken from Hinton's homeworks
-inputs_to_softmax  = inputs_to_softmax - repmat(findmaxcols(inputs_to_softmax), vocab_size, 1)
+@devec inputs_to_softmax  = inputs_to_softmax - repmat(findmaxcols(inputs_to_softmax), vocab_size, 1)
 
 # Apply the softmax approach
 output_layer_state = exp(inputs_to_softmax)
 
 # Normalize the output_layer_state
-output_layer_state = output_layer_state ./ repmat(sum_columns(output_layer_state), vocab_size, 1)
+@devec output_layer_state = output_layer_state ./ repmat(sum_columns(output_layer_state), vocab_size, 1)
 
 
 return (embedding_layer_state, hidden_layer_state, output_layer_state)
