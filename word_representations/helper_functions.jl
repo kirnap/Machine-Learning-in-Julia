@@ -118,11 +118,10 @@ Since Julia suggests devoctarizes implementations,
 this function creates a mapping matrix which maps the target values a vector of
 1 and 0s
 =#
-batchsize = size(target_batch)[2]
-result_matrix = zeros(size(expansion_matrix)[1], batchsize)
-for i=1:batchsize
-  result_matrix[:, i] = expansion_matrix[:, target_batch[i]]
-end
-return result_matrix
-
+  batchsize = size(target_batch)[2]
+  result_matrix = zeros(size(expansion_matrix)[1], batchsize)
+  for i=1:batchsize
+    result_matrix[:, i] = expansion_matrix[:, target_batch[i]]
+  end
+  return result_matrix
 end
