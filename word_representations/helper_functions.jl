@@ -99,6 +99,19 @@ function sum_columns(matrix)
 end
 
 
+function sum_rows(matrix)
+  #=
+  MATLAB like summer to sum up the rows of a matrix
+  returns a column vector in where the each column is corresponding sum.
+  =#
+  result = zeros(size(matrix, 1), 1)
+  for i=1:size(matrix, 1)
+    result[i, 1] = sum(matrix[i, :])
+  end
+  return result
+end
+
+
 function output_mapper(expansion_matrix, target_batch)
 #=
 Since Julia suggests devoctarizes implementations,
