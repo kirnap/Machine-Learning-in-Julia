@@ -5,7 +5,7 @@ include("helper_functions.jl")
 function fprop(input_batch,
               word_embedding_weights,
               embed_to_hid_weights,
-              hid_to_output_weigths,
+              hid_to_output_weights,
               hid_bias,
               output_bias)
 #=
@@ -37,22 +37,23 @@ embedding_layer_state = modified_reshape(
 inputs_to_hidden_units = embed_to_hid_weights' * embedding_layer_state + repmat(hid_bias, 1, batchsize)
 
 # Next step is to apply the logistic function to find activations
-hidden_layer_state = 1./ (1 + exp(-inputs_to_hidden_units))
+@devec hidden_layer_state = 1./ (1 + exp(-inputs_to_hidden_units))
 
 
 # Compute the state of the OUTPUT LAYER
 
 # First we need to compute the inputs for softmax units
-@devec inputs_to_softmax = hid_to_output_weigths' * hidden_layer_state + repmat(output_bias, 1, batchsize)
+inputs_to_softmax = hid_to_output_weights' * hidden_layer_state + repmat(output_bias, 1, batchsize)
 
 # This trick is taken from Hinton's homeworks
-@devec inputs_to_softmax  = inputs_to_softmax - repmat(findmaxcols(inputs_to_softmax), vocab_size, 1)
+inputs_to_softmax  = inputs_to_softmax - repmat(findmaxcols(inputs_to_softmax), vocab_size, 1)
 
 # Apply the softmax approach
-output_layer_state = exp(inputs_to_softmax)
+@devec output_layer_state = exp(inputs_to_softmax)
 
 # Normalize the output_layer_state
-@devec output_layer_state = output_layer_state ./ repmat(sum_columns(output_layer_state), vocab_size, 1)
+output_layer_state = output_layer_state ./ repmat(sum_columns(output_layer_state), vocab_size, 1)
+
 
 
 return (embedding_layer_state, hidden_layer_state, output_layer_state)
