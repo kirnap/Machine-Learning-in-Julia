@@ -1,10 +1,9 @@
-include("load_data.jls")
-
+include("load_data.jl")
 
 using Knet
 
 #=
-This network consists of 3 layers:
+Network consists of 3 layers:
 
 input layer consisting of linear units (taking the input matrix)
 hidden layer including user defined number of logistic units
@@ -39,3 +38,30 @@ function test(f, data, loss)
     end
     sumloss / numloss
 end
+
+function main(numofepochs = 10)
+   # Load the data
+   (train_input,
+    train_target,
+    valid_input,
+    valid_target,
+    test_input,
+    test_target) = load_data()
+
+    # Split data into minibatches
+    batchsize = 100
+    train_data = minibatch(train_input, train_target, batchsize)
+    test_data = minibatch(test_input, test_target, batchsize)
+
+   net = compile(:forward_net)
+   setp(net; lr=0.1)
+
+   println("Test error before training: ", test(net, test_data, zeroone))
+
+   for i=1:numofepochs
+     train(net, train_data, softloss)
+     println("Test error after epoch ", i, ": ",test(net, test_data, zeroone))
+   end
+
+end
+main()
