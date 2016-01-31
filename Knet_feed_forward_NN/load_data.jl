@@ -1,9 +1,17 @@
+# To load a matlab data
 using MAT
 
 function load_data()
   #=
   This function loads the training, validation and test datas.
-  Finally it returns all the needed data for traing and test
+  Finally it returns all the needed data for traing and test datas
+  Here are the dimensions:
+
+  train_input = <number_of_futures:256> by <number of training cases>
+  train_target = sparse vector for each training case <10> by <number of training cases>
+
+  test_input = <number_of_futures:256> by <number of test cases>
+  test_target = <10> by <number of training cases>
 
   ----
   =#
