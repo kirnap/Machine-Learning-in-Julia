@@ -39,7 +39,7 @@ function test(f, data, loss)
     sumloss / numloss
 end
 
-function main(numofepochs = 10)
+function main(numofepochs = 100)
    # Load the data
    (train_input,
     train_target,
